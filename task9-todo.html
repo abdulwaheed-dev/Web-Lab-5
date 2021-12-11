@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <title>Todo App</title>
+    <style>
+        /* #MarkDoneTable,#todoTable{
+          width: 500px;
+          float: left;
+          margin-left: 40px;
+        }        */
+        .container{
+          width: 700px;
+        }
+        .btnDelete,.btnDone{
+          float: right;
+          margin-left: 5px;
+        }
+        .btnDelete{
+          color: red;
+        }
+        .btnDone{
+          color: darkgreen;
+        }
+    </style>
+  </head>
+  <body>
+    <h2 class="display-4 ps-5 mt-2">Todo App using Local Storage</h2>
+    <form class="container mt-4">
+        <div class="mb-3">
+          <label for="todoTask" class="form-label">Add your Todo Task:</label>
+          <input type="text" class="form-control" id="todoTask">
+        </div>
+        <button id="sBtn" type="button" class="btn btn-primary">Submit</button>
+      </form> 
+      <div class="container">
+        <ul id="todoTable" class="list-group mt-4">
+          <li class="list-group-item active text-center" aria-current="true">Tasks To Do</li>
+        </ul>
+        <!-- <ul id="MarkDoneTable" class="list-group mt-4">
+          <li class="list-group-item active text-center bg-success" aria-current="true">Tasks Marked Done</li>
+        </ul> -->
+      </div>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script>
+        let countKey=1;
+        var submitBtn = document.querySelector('#sBtn');
+        submitBtn.addEventListener("click", function(e){
+            let todoTaskVal = (document.querySelector('#todoTask')).value;
+
+            let todoUl = document.querySelector('#todoTable');
+            let newTodo = document.createElement('li');
+            newTodo.innerText = todoTaskVal;
+            newTodo.classList.add("list-group-item")
+            newTodo.id = ('todo'+(countKey));
+
+            // let btnDone = document.createElement('i');  //<i class="fas fa-check-double"></i><i class="fas fa-check-circle"></i> <i class="fas fa-check-square"></i>
+            // btnDone.classList.add('fas','fa-check-double','fa-2x','btnDone','mark');
+            let btnClose = document.createElement('i'); //<i class="fas fa-trash-alt"></i><i class="fas fa-minus-circle"></i>
+            btnClose.classList.add('fas','fa-trash-alt','fa-2x','btnDelete','del'); 
+
+            localStorage.setItem(('todo'+(countKey)),todoTaskVal);
+            newTodo.append(btnClose);
+            todoUl.append(newTodo);
+
+            countKey++;
+
+            const delbtns = document.querySelectorAll(".del");
+            delbtns.forEach(element => {
+              element.addEventListener("click",(e)=>{
+                e.target.parentElement.remove();
+                //console.log(e.target.parentElement.id);
+                localStorage.removeItem(e.target.parentElement.id);  
+              });
+            });
+        });
+    </script>
+
+  </body>
+</html>
