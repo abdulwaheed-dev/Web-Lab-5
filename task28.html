@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+        body
+        {
+
+                height: 100vh;
+                font-size: 4rem;
+        }
+        .col 
+        {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 8rem;
+        width: 3rem;
+        border: 2px solid black;
+        font-size: larger;
+        text-align: center;
+        color: white;
+        }
+        .container-fluid {
+        width: 35rem;
+        }
+        .disable-div {
+    pointer-events: none;
+}
+.display-4
+{
+  font-size: 2rem;
+}
+    </style>
+  </head>
+  <body>
+
+
+
+    <div class="container-fluid px-3" >
+
+        <h4 class="text-center display-4">Tic-Tac-Toe</h4>
+        <div class="row d-flex justify-content-center" >
+            <div class="col box-1"></div>
+            <div class="col box-2">X</div>
+            <div class="col box-3"></div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col box-4">
+                
+            </div>
+            <div class="col box-5"></div>
+            <div class="col box-6"></div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col box-7"></div>
+            <div class="col box-8"></div>
+            <div class="col box-9"></div>
+        </div>
+    
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-outline-success btn-sm" id="resetButton">Reset</button>
+        </div>    
+    
+    </div>
+
+    <div class="container">
+      <div class="row ">
+        <div class="col-6 d-flex justify-content-center align-items-center">
+          <h4 class="btn player1Active rounded-pill">Player 1</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-center align-items-center">
+          <h4 class="btn player2Active rounded-pill">Player 2</h4>
+        </div>
+      </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      
+
+    //settiing things to use
+    const boxes=[];
+    const selectedColor="lightgray";
+    const unselectedColor="white";
+
+    //Players
+    const player1={turn:true, sign:"X", color:"red"}
+    const player2={turn:false, sign:"O", color:"blue"}
+
+    //Getting all boxes in a array
+    for(var i=0; i<9;i++)
+    {
+        boxes[i] =document.querySelector(`.box-${i+1}`);
+    }
+    boxes[0].style.innerText="sasss";
+
+
+    function checkWinner(sign)
+    {
+        let count=0;
+        let status=false;
+
+        let winArr={
+            p1:[1,2,3],
+            p2:[4,5,6],
+            p3:[7,8,9],
+
+            p4:[1,4,7],
+            p5:[2,5,8],
+            p6:[3,6,9],
+
+            p7:[1,5,9],
+            p8:[3,5,7],
+        }
+
+        for(var item in winArr)
+        {
+            for (var i=0; i<3;i++)
+            {
+                 if(boxes[winArr[item][i]-1].innerText===sign)
+                 {
+                    count++;
+                 }              
+            }            
+             if(count===3)
+             {
+                 status=true;
+             }
+             else{
+                 count=0;
+             }
+        }
+        
+        return status;
+    }
+
+    function stopGame()
+    {
+        boxes.forEach((box)=>{
+            box.classList.add("disable-div");
+            box.style.backgroundColor="pink"
+        });
+    }
+    //At start player 1 is active
+    document.querySelector(".player1Active").classList.add("btn-success");
+    document.querySelector(".player2Active").classList.remove("btn-success");
+
+
+
+    boxes.forEach((element,index) => {
+        element.addEventListener("click",(e)=>{
+            let box=e.target;
+            box.style.backgroundColor=selectedColor;
+
+
+            if(player1.turn)
+            {
+
+
+             box.style.color=player1.color;
+             box.innerText=player1.sign;
+             box.classList.add("disable-div");   
+             player1.turn=false;
+             player2.turn=true;
+             
+             document.querySelector(".player2Active").classList.add("btn-success");
+             document.querySelector(".player1Active").classList.remove("btn-success");
+
+            //  console.log("player 1")
+            //  console.log(  )
+
+            if (checkWinner(player1.sign))
+            {
+                stopGame();
+                alert("Winner: Player 1 ")
+                document.querySelector(".player1Active").classList.remove("btn-success");
+              document.querySelector(".player2Active").classList.remove("btn-success");
+            }
+
+            }
+
+            else
+            {
+                
+            box.style.color=player2.color;
+            box.innerText=player2.sign;
+            box.classList.add("disable-div");
+            player2.turn=false;
+            player1.turn=true;
+
+            document.querySelector(".player1Active").classList.add("btn-success");
+            document.querySelector(".player2Active").classList.remove("btn-success");
+
+            if (checkWinner(player2.sign))
+            {
+                stopGame();
+                alert("Winner: Player 2 ")
+              document.querySelector(".player1Active").classList.remove("btn-success");
+              document.querySelector(".player2Active").classList.remove("btn-success");
+            }
+             }
+        })
+    });
+
+    document.getElementById("resetButton").addEventListener('click',()=>{
+
+        boxes.forEach((box)=>{
+            box.classList.remove("disable-div");
+            box.innerText="";
+            box.style.backgroundColor=unselectedColor;    
+        });
+        player1.turn=true;
+        player2.turn=false;
+    })
+
+
+
+    //at start box-1 always be the selected box
+
+
+
+    </script>
+  </body>
+</html>
